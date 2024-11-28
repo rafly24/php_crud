@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - Todo List</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(45deg, #4caf50, #2196f3);
+      }
+
+      .register-container {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        width: 450px;
+        margin: 20px;
+      }
+
+      .register-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .register-header h1 {
+        color: #333;
+        font-size: 2em;
+        margin-bottom: 10px;
+      }
+
+      .register-header p {
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      .input-group {
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .input-group i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #4caf50;
+        font-size: 1.2em;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 15px 15px 15px 45px;
+        border: none;
+        border-radius: 10px;
+        background: #f5f5f5;
+        font-size: 1em;
+        transition: all 0.3s ease;
+      }
+
+      .input-group input:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px #4caf50;
+      }
+
+      .register-button {
+        width: 100%;
+        padding: 15px;
+        background: #4caf50;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+      }
+
+      .register-button:hover {
+        background: #45a049;
+        transform: translateY(-2px);
+      }
+
+      .login-link {
+        text-align: center;
+        margin-top: 20px;
+        color: #666;
+      }
+
+      .login-link a {
+        color: #4caf50;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .login-link a:hover {
+        text-decoration: underline;
+      }
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+
+      .navbar-brand {
+        font-size: 1.5em;
+        font-weight: 600;
+        color: #4caf50;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .navbar-brand i {
+        font-size: 1.2em;
+      }
+
+      .navbar-nav {
+        display: flex;
+        gap: 20px;
+        list-style: none;
+      }
+
+      .nav-link {
+        color: #333;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .nav-link:hover {
+        color: #4caf50;
+      }
+
+      /* Footer Styles */
+      .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px 30px;
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .footer p {
+        color: #666;
+        font-size: 0.9em;
+        margin-bottom: 10px;
+      }
+
+      .social-links {
+        margin-top: 10px;
+      }
+
+      .social-links a {
+        color: #4caf50;
+        margin: 0 10px;
+        font-size: 1.2em;
+        transition: color 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: #45a049;
+        transform: translateY(-2px);
+      }
+
+      /* Adjust main content for navbar and footer */
+      body {
+        padding: 80px 0 80px 0;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 480px) {
+        .navbar {
+          padding: 10px 15px;
+        }
+
+        .navbar-brand {
+          font-size: 1.2em;
+        }
+
+        .navbar-nav {
+          gap: 10px;
+        }
+
+        .footer {
+          padding: 10px 15px;
+        }
+      }
+
+      /* Animasi */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .register-container {
+        animation: fadeIn 0.5s ease;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 480px) {
+        .register-container {
+          width: 90%;
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="index.html" class="navbar-brand">
+        <i class="fas fa-check-circle"></i>
+        TodoList
+      </a>
+      <ul class="navbar-nav">
+        <li>
+          <a href="login.html" class="nav-link">
+            <i class="fas fa-sign-in-alt"></i>
+            Login
+          </a>
+        </li>
+        <li>
+          <a href="register.html" class="nav-link">
+            <i class="fas fa-user-plus"></i>
+            Register
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="register-container">
+      <div class="register-header">
+        <h1>Buat Akun Baru</h1>
+        <p>Silakan lengkapi data diri Anda</p>
+      </div>
+
+      <form id="registerForm">
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <input type="text" id="firstName" placeholder="Nama Depan" required />
+        </div>
+
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <input
+            type="text"
+            id="lastName"
+            placeholder="Nama Belakang"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="email" placeholder="Email" required />
+        </div>
+
+        <div class="input-group">
+          <i class="fas fa-phone"></i>
+          <input type="tel" id="mobile" placeholder="Nomor HP" required />
+        </div>
+
+        <div class="input-group">
+          <i class="fas fa-user-circle"></i>
+          <input type="text" id="username" placeholder="Username" required />
+        </div>
+
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Konfirmasi Password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="register-button">
+          <i class="fas fa-user-plus"></i> Daftar
+        </button>
+      </form>
+
+      <div class="login-link">
+        <p>Sudah punya akun? <a href="login.html">Login sekarang</a></p>
+      </div>
+    </div>
+    <footer class="footer">
+      <p>
+        © 2024 TodoList App. Dibuat dengan
+        <i class="fas fa-heart" style="color: #ff4444"></i> di Indonesia
+      </p>
+      <div class="social-links">
+        <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </footer>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>

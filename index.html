@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(45deg, #4caf50, #2196f3);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .header h1 {
+        color: #333;
+        font-size: 2em;
+      }
+
+      .logout-btn {
+        padding: 10px 20px;
+        background: #f44336;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .logout-btn:hover {
+        background: #d32f2f;
+        transform: translateY(-2px);
+      }
+
+      .todo-input-container {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .todo-input-group {
+        display: flex;
+        gap: 10px;
+      }
+
+      .todo-input {
+        flex: 1;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 5px;
+        font-size: 1em;
+        transition: all 0.3s ease;
+      }
+
+      .todo-input:focus {
+        outline: none;
+        border-color: #4caf50;
+      }
+
+      .add-btn {
+        padding: 12px 25px;
+        background: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .add-btn:hover {
+        background: #45a049;
+        transform: translateY(-2px);
+      }
+
+      .filters {
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+      }
+
+      .filter-btn {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .filter-btn.active {
+        background: #4caf50;
+        color: white;
+      }
+
+      .todo-list {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .todo-item {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        border-bottom: 1px solid #eee;
+        animation: slideIn 0.3s ease;
+      }
+
+      .todo-item:last-child {
+        border-bottom: none;
+      }
+
+      .todo-text {
+        flex: 1;
+        margin: 0 15px;
+      }
+
+      .todo-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .action-btn {
+        padding: 8px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .edit-btn {
+        background: #2196f3;
+        color: white;
+      }
+
+      .delete-btn {
+        background: #f44336;
+        color: white;
+      }
+
+      .complete-btn {
+        background: #4caf50;
+        color: white;
+      }
+
+      .action-btn:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+      }
+
+      .completed {
+        text-decoration: line-through;
+        opacity: 0.7;
+      }
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+
+      .navbar-brand {
+        font-size: 1.5em;
+        font-weight: 600;
+        color: #4caf50;
+        text-decoration: none;
+      }
+
+      .navbar-nav {
+        display: flex;
+        gap: 20px;
+        list-style: none;
+      }
+
+      .nav-link {
+        color: #333;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .nav-link:hover {
+        color: #4caf50;
+      }
+
+      /* Footer Styles */
+      .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px 30px;
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .footer p {
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      .social-links {
+        margin-top: 10px;
+      }
+
+      .social-links a {
+        color: #4caf50;
+        margin: 0 10px;
+        font-size: 1.2em;
+        transition: color 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: #45a049;
+      }
+
+      /* Adjust main content for navbar and footer */
+      body {
+        padding: 80px 0 80px 0;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 600px) {
+        .header {
+          flex-direction: column;
+          gap: 15px;
+          text-align: center;
+        }
+
+        .todo-input-group {
+          flex-direction: column;
+        }
+
+        .filters {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="index.html" class="navbar-brand">TodoList</a>
+      <ul class="navbar-nav">
+        <li>
+          <a href="#" class="nav-link" id="userProfile"
+            ><i class="fas fa-user"></i> Profile</a
+          >
+        </li>
+        <li>
+          <a href="#" class="nav-link" onclick="logout()"
+            ><i class="fas fa-sign-out-alt"></i> Logout</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <div class="container">
+      <div class="header">
+        <h1>Todo List</h1>
+        <button class="logout-btn" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+
+      <div class="todo-input-container">
+        <div class="todo-input-group">
+          <input
+            type="text"
+            class="todo-input"
+            id="newTodo"
+            placeholder="Masukkan tugas baru..."
+          />
+          <button class="add-btn" onclick="addTodo()">
+            <i class="fas fa-plus"></i> Tambah
+          </button>
+        </div>
+      </div>
+
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">Semua</button>
+        <button class="filter-btn" data-filter="pending">Pending</button>
+        <button class="filter-btn" data-filter="completed">Selesai</button>
+      </div>
+
+      <div class="todo-list" id="todoList">
+        <!-- Todo items will be inserted here by JavaScript -->
+      </div>
+    </div>
+    <footer class="footer">
+      <p>© 2024 TodoList App. All rights reserved.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </footer>
+
+    <script>
+      const API_URL = "api/tasks/";
+      const userId = localStorage.getItem("user_id");
+
+      // Cek apakah user sudah login (tambahkan pengecekan lokasi halaman)
+      if (!userId && window.location.pathname.indexOf("login.html") === -1) {
+        window.location.replace("login.html");
+      }
+
+      // Load todos saat halaman dimuat
+      document.addEventListener("DOMContentLoaded", loadTodos);
+
+      // Fungsi untuk load todos dari database
+      async function loadTodos() {
+        try {
+          const response = await fetch(`${API_URL}read.php?user_id=${userId}`);
+          const todos = await response.json();
+          const todoList = document.getElementById("todoList");
+          todoList.innerHTML = ""; // Clear existing todos
+
+          todos.forEach((todo) => {
+            const todoItem = createTodoElement(todo);
+            todoList.appendChild(todoItem);
+          });
+        } catch (error) {
+          console.error("Error loading todos:", error);
+          alert("Gagal memuat todo list");
+        }
+      }
+
+      // Fungsi untuk membuat elemen todo
+      function createTodoElement(todo) {
+        const todoItem = document.createElement("div");
+        todoItem.className = "todo-item";
+        todoItem.dataset.id = todo.id;
+        todoItem.innerHTML = `
+        <input type="checkbox" ${
+          todo.status === "completed" ? "checked" : ""
+        } onchange="toggleComplete(this)">
+        <span class="todo-text ${
+          todo.status === "completed" ? "completed" : ""
+        }">${todo.title}</span>
+        <div class="todo-actions">
+            <button class="action-btn edit-btn" onclick="editTodo(this)">
+                <i class="fas fa-edit"></i>
+            </button>
+            <button class="action-btn delete-btn" onclick="deleteTodo(this)">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `;
+        return todoItem;
+      }
+
+      // Fungsi untuk menambah todo
+      async function addTodo() {
+        const input = document.getElementById("newTodo");
+        const title = input.value.trim();
+
+        if (title) {
+          try {
+            const response = await fetch(`${API_URL}create.php`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                user_id: userId,
+                title: title,
+              }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              // Reload todos setelah menambah
+              loadTodos();
+              input.value = "";
+            } else {
+              alert(result.message || "Gagal menambah todo");
+            }
+          } catch (error) {
+            console.error("Error adding todo:", error);
+            alert("Gagal menambah todo");
+          }
+        }
+      }
+
+      // Fungsi untuk update status todo
+      async function toggleComplete(checkbox) {
+        const todoItem = checkbox.closest(".todo-item");
+        const todoId = todoItem.dataset.id;
+        const status = checkbox.checked ? "completed" : "pending";
+
+        try {
+          const response = await fetch(`${API_URL}update.php`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              id: todoId,
+              status: status,
+            }),
+          });
+
+          if (response.ok) {
+            checkbox.nextElementSibling.classList.toggle("completed");
+          } else {
+            checkbox.checked = !checkbox.checked; // Revert checkbox
+            alert("Gagal mengupdate status");
+          }
+        } catch (error) {
+          console.error("Error updating todo:", error);
+          checkbox.checked = !checkbox.checked; // Revert checkbox
+          alert("Gagal mengupdate status");
+        }
+      }
+
+      // Fungsi untuk edit todo
+      async function editTodo(btn) {
+        const todoItem = btn.closest(".todo-item");
+        const todoId = todoItem.dataset.id;
+        const todoText = todoItem.querySelector(".todo-text");
+        const newTitle = prompt("Edit tugas:", todoText.textContent);
+
+        if (newTitle && newTitle.trim()) {
+          try {
+            const response = await fetch(`${API_URL}update.php`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                id: todoId,
+                title: newTitle.trim(),
+              }),
+            });
+
+            if (response.ok) {
+              todoText.textContent = newTitle.trim();
+            } else {
+              alert("Gagal mengupdate todo");
+            }
+          } catch (error) {
+            console.error("Error updating todo:", error);
+            alert("Gagal mengupdate todo");
+          }
+        }
+      }
+
+      // Fungsi untuk delete todo
+      async function deleteTodo(btn) {
+        if (confirm("Apakah Anda yakin ingin menghapus tugas ini?")) {
+          const todoItem = btn.closest(".todo-item");
+          const todoId = todoItem.dataset.id;
+
+          try {
+            const response = await fetch(`${API_URL}delete.php`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                id: todoId,
+              }),
+            });
+
+            if (response.ok) {
+              todoItem.remove();
+            } else {
+              alert("Gagal menghapus todo");
+            }
+          } catch (error) {
+            console.error("Error deleting todo:", error);
+            alert("Gagal menghapus todo");
+          }
+        }
+      }
+
+      // Filter todos
+      document.querySelectorAll(".filter-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelector(".filter-btn.active")
+            .classList.remove("active");
+          btn.classList.add("active");
+          filterTodos(btn.dataset.filter);
+        });
+      });
+
+      function filterTodos(filter) {
+        const todos = document.querySelectorAll(".todo-item");
+        todos.forEach((todo) => {
+          switch (filter) {
+            case "completed":
+              todo.style.display = todo.querySelector("input").checked
+                ? "flex"
+                : "none";
+              break;
+            case "pending":
+              todo.style.display = !todo.querySelector("input").checked
+                ? "flex"
+                : "none";
+              break;
+            default:
+              todo.style.display = "flex";
+          }
+        });
+      }
+
+      // Logout function
+      function logout() {
+        if (confirm("Apakah Anda yakin ingin keluar?")) {
+          localStorage.removeItem("user_id");
+          window.location.href = "login.html";
+        }
+      }
+    </script>
+  </body>
+</html>
